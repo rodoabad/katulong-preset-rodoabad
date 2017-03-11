@@ -4,6 +4,5 @@
 .idea
 npm-debug.log
 coverage
-node_modules
 *.swp
 .nyc_output
