@@ -35,6 +35,14 @@ describe('Given the test task', () => {
 
     });
 
+    it('should have the right command name', () => {
+
+        const expectedCommand = 'test';
+
+        expect(testTask.command).equal(expectedCommand);
+
+    });
+
     it('should have a default set of directories to check', () => {
 
         const expectedDefaultDirectories = 'test/unit';

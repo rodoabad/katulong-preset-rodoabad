@@ -35,6 +35,14 @@ describe('Given the lint task', () => {
 
     });
 
+    it('should have the right command name', () => {
+
+        const expectedCommand = 'lint';
+
+        expect(lintTask.command).equal(expectedCommand);
+
+    });
+
     it('should have a default set of directories to check', () => {
 
         const expectedDefaultDirectories = 'bin lib src test';
