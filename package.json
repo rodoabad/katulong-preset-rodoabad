@@ -1,0 +1,43 @@
+{
+  "name": "katulong-preset-rodoabad",
+  "version": "1.0.0",
+  "description": "A katulong preset to help me with my projects.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodoabad/katulong-preset-rodoabad.git"
+  },
+  "author": "Rodo Abad <rodoabad@gmail.com> (https://github.com/rodoabad)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rodoabad/katulong-preset-rodoabad/issues"
+  },
+  "homepage": "https://github.com/rodoabad/katulong-preset-rodoabad#readme",
+  "engines": {
+    "node": ">=6"
+  },
+  "config": {
+    "ghooks": {
+      "commit-msg": "validate-commit-msg",
+      "pre-push": "npm run test"
+    }
+  },
+  "dependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-rodoabad": "^1.13.1",
+    "katulong": "^4.0.0",
+    "mocha": "^3.2.0",
+    "shelljs": "^0.7.7"
+  },
+  "devDependencies": {
+    "chance": "^1.0.6",
+    "code": "^4.0.0",
+    "ghooks": "^1.3.2",
+    "semantic-release": "^4.3.5",
+    "sinon": "^1.17.7",
+    "validate-commit-msg": "^2.8.2"
+  },
+  "scripts": {
+    "pretest": "katulong rodoabad lint",
+    "test": "katulong rodoabad test"
+  }
+}
