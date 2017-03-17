@@ -12,7 +12,8 @@ describe('Given the lint task', () => {
     let chance,
         pathStub,
         sandbox,
-        shellExecStub;
+        shellExecStub,
+        shellExitStub;
 
     before(() => {
 
@@ -26,6 +27,7 @@ describe('Given the lint task', () => {
 
         pathStub = sandbox.stub(path, 'resolve');
         shellExecStub = sandbox.stub(shell, 'exec');
+        shellExitStub = sandbox.stub(shell, 'exit');
 
     });
 
@@ -121,6 +123,27 @@ describe('Given the lint task', () => {
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedPatternToIgnore);
+
+    });
+
+    it('should exit with the right code', () => {
+
+        const expectedExitCode = chance.natural();
+
+        const mockArgv = {
+            directories: chance.string()
+        };
+
+        shellExecStub.callsFake((commandToExecute, callbackFunction) => {
+
+            callbackFunction(expectedExitCode);
+
+        });
+
+        lintTask.handler(mockArgv);
+
+        sinon.assert.calledOnce(shellExitStub);
+        sinon.assert.calledWithExactly(shellExitStub, expectedExitCode);
 
     });
 

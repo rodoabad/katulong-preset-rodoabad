@@ -12,7 +12,8 @@ describe('Given the test task', () => {
     let chance,
         pathStub,
         sandbox,
-        shellExecStub;
+        shellExecStub,
+        shellExitStub;
 
     before(() => {
 
@@ -26,6 +27,7 @@ describe('Given the test task', () => {
 
         pathStub = sandbox.stub(path, 'resolve');
         shellExecStub = sandbox.stub(shell, 'exec');
+        shellExitStub = sandbox.stub(shell, 'exit');
 
     });
 
@@ -84,6 +86,30 @@ describe('Given the test task', () => {
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedDirectories);
+
+    });
+
+    it('should exit with the right code', () => {
+
+        const expectedExitCode = chance.natural();
+
+        const directory1 = chance.string();
+        const directory2 = chance.string();
+
+        const mockArgv = {
+            directories: `${directory1},${directory2}`
+        };
+
+        shellExecStub.callsFake((commandToExecute, callbackFunction) => {
+
+            callbackFunction(expectedExitCode);
+
+        });
+
+        testTask.handler(mockArgv);
+
+        sinon.assert.calledOnce(shellExitStub);
+        sinon.assert.calledWithExactly(shellExitStub, expectedExitCode);
 
     });
 
