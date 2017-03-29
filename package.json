@@ -33,6 +33,7 @@
     "chance": "^1.0.6",
     "code": "^4.0.0",
     "ghooks": "^2.0.0",
+    "mocha-clean": "^1.0.0",
     "semantic-release": "^6.3.2",
     "sinon": "^2.0.0",
     "validate-commit-msg": "^2.8.2"
@@ -41,6 +42,6 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "coverage": "katulong rodoabad coverage",
     "lint": "katulong rodoabad lint",
-    "test": "mocha test/unit"
+    "test": "katulong rodoabad test"
   }
 }
