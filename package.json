@@ -42,6 +42,6 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "coverage": "katulong rodoabad coverage",
     "lint": "katulong rodoabad lint",
-    "test": "katulong rodoabad test"
+    "test": "yarn run lint && yarn run coverage"
   }
 }
