@@ -45,26 +45,14 @@ describe('Given the test task', () => {
 
     });
 
-    it('should have a default set of directories to check', () => {
-
-        const expectedDefaultDirectories = 'test/unit';
-
-        expect(testTask.builder.directories.default).equal(expectedDefaultDirectories);
-
-    });
-
     it('should execute mocha with the correct binary path and comment', () => {
-
-        const mockArgv = {
-            directories: chance.string()
-        };
 
         const mockPath = chance.string();
 
         const expectedCommandToExecute = `"${mockPath}/mocha"`;
 
         pathStub.returns(mockPath);
-        testTask.handler(mockArgv);
+        testTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedCommandToExecute);
@@ -73,19 +61,12 @@ describe('Given the test task', () => {
 
     it('should parse the directories passed correctly', () => {
 
-        const directory1 = chance.string();
-        const directory2 = chance.string();
+        const expectedDefaultDirectories = 'test/unit';
 
-        const expectedDirectories = `${directory1} ${directory2}`;
-
-        const mockArgv = {
-            directories: `${directory1},${directory2}`
-        };
-
-        testTask.handler(mockArgv);
+        testTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
-        sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedDirectories);
+        sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedDefaultDirectories);
 
     });
 
@@ -93,20 +74,13 @@ describe('Given the test task', () => {
 
         const expectedExitCode = chance.natural();
 
-        const directory1 = chance.string();
-        const directory2 = chance.string();
-
-        const mockArgv = {
-            directories: `${directory1},${directory2}`
-        };
-
         shellExecStub.callsFake((commandToExecute, callbackFunction) => {
 
             callbackFunction(expectedExitCode);
 
         });
 
-        testTask.handler(mockArgv);
+        testTask.handler();
 
         sinon.assert.calledOnce(shellExitStub);
         sinon.assert.calledWithExactly(shellExitStub, expectedExitCode);

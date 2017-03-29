@@ -45,26 +45,14 @@ describe('Given the lint task', () => {
 
     });
 
-    it('should have a default set of directories to check', () => {
-
-        const expectedDefaultDirectories = 'bin lib src test';
-
-        expect(lintTask.builder.directories.default).equal(expectedDefaultDirectories);
-
-    });
-
     it('should execute eslint with the correct binary path and comment', () => {
-
-        const mockArgv = {
-            directories: chance.string()
-        };
 
         const mockPath = chance.string();
 
         const expectedCommandToExecute = `"${mockPath}/eslint"`;
 
         pathStub.returns(mockPath);
-        lintTask.handler(mockArgv);
+        lintTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedCommandToExecute);
@@ -73,31 +61,20 @@ describe('Given the lint task', () => {
 
     it('should parse the directories passed correctly', () => {
 
-        const directory1 = chance.string();
-        const directory2 = chance.string();
+        const expectedDefaultDirectories = 'bin lib src test';
 
-        const expectedDirectories = `${directory1} ${directory2}`;
-
-        const mockArgv = {
-            directories: `${directory1},${directory2}`
-        };
-
-        lintTask.handler(mockArgv);
+        lintTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
-        sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedDirectories);
+        sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedDefaultDirectories);
 
     });
 
     it('should be caching eslint', () => {
 
-        const mockArgv = {
-            directories: chance.string()
-        };
-
         const expectedCachingConfiguration = '--cache';
 
-        lintTask.handler(mockArgv);
+        lintTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedCachingConfiguration);
@@ -105,10 +82,6 @@ describe('Given the lint task', () => {
     });
 
     it('should ignore the following directories', () => {
-
-        const mockArgv = {
-            directories: chance.string()
-        };
 
         const mockDirectoriesToIgnore = [
             'coverage',
@@ -119,7 +92,7 @@ describe('Given the lint task', () => {
 
         const expectedPatternToIgnore = `--ignore-pattern ${mockDirectoriesToIgnore}`;
 
-        lintTask.handler(mockArgv);
+        lintTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedPatternToIgnore);
@@ -130,17 +103,13 @@ describe('Given the lint task', () => {
 
         const expectedExitCode = chance.natural();
 
-        const mockArgv = {
-            directories: chance.string()
-        };
-
         shellExecStub.callsFake((commandToExecute, callbackFunction) => {
 
             callbackFunction(expectedExitCode);
 
         });
 
-        lintTask.handler(mockArgv);
+        lintTask.handler();
 
         sinon.assert.calledOnce(shellExitStub);
         sinon.assert.calledWithExactly(shellExitStub, expectedExitCode);
