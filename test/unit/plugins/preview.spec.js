@@ -2,12 +2,12 @@ const {
     expect
 } = require('code');
 const Chance = require('chance');
-const buildTask = require('../../../lib/plugins/build');
+const previewTask = require('../../../lib/plugins/preview');
 const path = require('path');
 const shell = require('shelljs');
 const sinon = require('sinon');
 
-describe('Given the build task', () => {
+describe('Given the preview task', () => {
 
     let chance,
         pathStub,
@@ -41,9 +41,9 @@ describe('Given the build task', () => {
 
     it('should have the right command name', () => {
 
-        const expectedCommand = 'build';
+        const expectedCommand = 'preview';
 
-        expect(buildTask.command).equal(expectedCommand);
+        expect(previewTask.command).equal(expectedCommand);
 
     });
 
@@ -55,7 +55,7 @@ describe('Given the build task', () => {
 
         pathStub.withArgs('./dist').returns(expectedDirectoryToDelete);
 
-        buildTask.handler();
+        previewTask.handler();
 
         sinon.assert.calledOnce(shellRemoveStub);
         sinon.assert.calledWithMatch(shellRemoveStub, expectedCommandArguments, expectedDirectoryToDelete);
@@ -66,11 +66,11 @@ describe('Given the build task', () => {
 
         const mockPath = chance.string();
 
-        const expectedCommandToExecute = `"${mockPath}/webpack"`;
+        const expectedCommandToExecute = `"${mockPath}/webpack-dev-server"`;
 
         pathStub.returns(mockPath);
 
-        buildTask.handler();
+        previewTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedCommandToExecute);
@@ -81,7 +81,7 @@ describe('Given the build task', () => {
 
         const expectedConfigurationArgument = '--config';
 
-        buildTask.handler();
+        previewTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
         sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedConfigurationArgument);
@@ -98,7 +98,7 @@ describe('Given the build task', () => {
 
         });
 
-        buildTask.handler();
+        previewTask.handler();
 
         sinon.assert.calledOnce(shellExitStub);
         sinon.assert.calledWithExactly(shellExitStub, expectedExitCode);
