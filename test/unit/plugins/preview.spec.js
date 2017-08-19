@@ -79,12 +79,12 @@ describe('Given the preview task', () => {
 
     it('should be using the webpack config from this package', () => {
 
-        const expectedCachingConfiguration = '--config';
+        const expectedConfigurationArgument = '--config';
 
         previewTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
-        sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedCachingConfiguration);
+        sinon.assert.alwaysCalledWithMatch(shellExecStub, expectedConfigurationArgument);
 
     });
 
