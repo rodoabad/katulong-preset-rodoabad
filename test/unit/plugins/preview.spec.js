@@ -64,11 +64,7 @@ describe('Given the preview task', () => {
 
     it('should execute webpack with the correct binary path and comment', () => {
 
-        const mockPath = chance.string();
-
-        const expectedCommandToExecute = `"${mockPath}/webpack-dev-server"`;
-
-        pathStub.returns(mockPath);
+        const expectedCommandToExecute = 'npx webpack-dev-server';
 
         previewTask.handler();
 

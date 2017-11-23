@@ -3,14 +3,12 @@ const {
 } = require('code');
 const Chance = require('chance');
 const coverageTask = require('../../../lib/plugins/coverage');
-const path = require('path');
 const shell = require('shelljs');
 const sinon = require('sinon');
 
 describe('Given the coverage task', () => {
 
     let chance,
-        pathStub,
         sandbox,
         shellExecStub,
         shellExitStub;
@@ -25,7 +23,6 @@ describe('Given the coverage task', () => {
 
         chance = new Chance();
 
-        pathStub = sandbox.stub(path, 'resolve');
         shellExecStub = sandbox.stub(shell, 'exec');
         shellExitStub = sandbox.stub(shell, 'exit');
 
@@ -47,11 +44,8 @@ describe('Given the coverage task', () => {
 
     it('should execute nyc with the correct binary path', () => {
 
-        const mockPath = chance.string();
+        const expectedCommandToExecute = 'npx nyc';
 
-        const expectedCommandToExecute = `"${mockPath}/nyc"`;
-
-        pathStub.returns(mockPath);
         coverageTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
