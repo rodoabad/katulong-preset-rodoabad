@@ -3,14 +3,12 @@ const {
 } = require('code');
 const Chance = require('chance');
 const testTask = require('../../../lib/plugins/test');
-const path = require('path');
 const shell = require('shelljs');
 const sinon = require('sinon');
 
 describe('Given the test task', () => {
 
     let chance,
-        pathStub,
         sandbox,
         shellExecStub,
         shellExitStub;
@@ -25,7 +23,6 @@ describe('Given the test task', () => {
 
         chance = new Chance();
 
-        pathStub = sandbox.stub(path, 'resolve');
         shellExecStub = sandbox.stub(shell, 'exec');
         shellExitStub = sandbox.stub(shell, 'exit');
 
@@ -47,11 +44,8 @@ describe('Given the test task', () => {
 
     it('should execute mocha with the correct binary path and comment', () => {
 
-        const mockPath = chance.string();
+        const expectedCommandToExecute = 'npx mocha';
 
-        const expectedCommandToExecute = `"${mockPath}/mocha"`;
-
-        pathStub.returns(mockPath);
         testTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
