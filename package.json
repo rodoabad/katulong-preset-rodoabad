@@ -13,7 +13,7 @@
   },
   "homepage": "https://github.com/rodoabad/katulong-preset-rodoabad#readme",
   "engines": {
-    "node": ">=6"
+    "node": ">=8.9"
   },
   "config": {
     "ghooks": {
