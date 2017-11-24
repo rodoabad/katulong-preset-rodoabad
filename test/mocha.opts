@@ -3,3 +3,4 @@
 --recursive
 --reporter spec
 --require mocha-clean
+--require ./lib/config/babel-register.js
