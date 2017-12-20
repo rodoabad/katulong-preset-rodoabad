@@ -64,7 +64,11 @@ describe('Given the build task', () => {
 
     it('should execute webpack with the correct binary path and comment', () => {
 
-        const expectedCommandToExecute = 'npx webpack';
+        const mockPath = chance.string();
+
+        const expectedCommandToExecute = `"${mockPath}/webpack"`;
+
+        pathStub.returns(mockPath);
 
         buildTask.handler();
 

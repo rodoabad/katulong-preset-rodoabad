@@ -3,12 +3,14 @@ const {
 } = require('code');
 const Chance = require('chance');
 const lintTask = require('../../../lib/plugins/lint');
+const path = require('path');
 const shell = require('shelljs');
 const sinon = require('sinon');
 
 describe('Given the lint task', () => {
 
     let chance,
+        pathStub,
         sandbox,
         shellExecStub,
         shellExitStub;
@@ -23,6 +25,7 @@ describe('Given the lint task', () => {
 
         chance = new Chance();
 
+        pathStub = sandbox.stub(path, 'resolve');
         shellExecStub = sandbox.stub(shell, 'exec');
         shellExitStub = sandbox.stub(shell, 'exit');
 
@@ -44,8 +47,11 @@ describe('Given the lint task', () => {
 
     it('should execute eslint with the correct binary path and comment', () => {
 
-        const expectedCommandToExecute = 'npx eslint';
+        const mockPath = chance.string();
 
+        const expectedCommandToExecute = `"${mockPath}/eslint"`;
+
+        pathStub.returns(mockPath);
         lintTask.handler();
 
         sinon.assert.calledOnce(shellExecStub);
